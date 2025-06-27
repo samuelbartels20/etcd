@@ -1,4 +1,4 @@
-// Copyright 2015 The etcd Authors
+// Copyright 2025 The etcd Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,26 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package client
+package common
 
-import "fmt"
+import "strconv"
 
-type ClusterError struct {
-	Errors []error
+type Config struct {
+	NodeCount int
 }
 
-func (ce *ClusterError) Error() string {
-	s := ErrClusterUnavailable.Error()
-	for i, e := range ce.Errors {
-		s += fmt.Sprintf("; error #%d: %s\n", i, e)
-	}
-	return s
-}
+func MakeConfig(nodeCount string) *Config {
+	cfg := &Config{}
 
-func (ce *ClusterError) Detail() string {
-	s := ""
-	for i, e := range ce.Errors {
-		s += fmt.Sprintf("error #%d: %s\n", i, e)
-	}
-	return s
+	cfg.NodeCount, _ = strconv.Atoi(nodeCount)
+
+	return cfg
 }
